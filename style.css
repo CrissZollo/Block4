@@ -1,0 +1,22 @@
+body {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.btnA,
+.btnB {
+    margin-bottom: 50px;
+    margin-top: 5px;
+}
+
+input {
+    width: 150px;
+}
+
+p {
+    font-size: 35px;
+    margin: 0px;
+}
