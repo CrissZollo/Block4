@@ -84,6 +84,7 @@ class Alu {
                         }
                     }
                 }
+                this.addAB();
             }
         }
     }
