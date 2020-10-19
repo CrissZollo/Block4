@@ -6,11 +6,12 @@ body {
     justify-content: center;
 }
 
-.btnA,
-.btnB {
-    margin-bottom: 50px;
-    margin-top: 5px;
+.setA,
+.setB,
+.result {
+    margin-top: 25px;
 }
+
 
 input {
     width: 150px;

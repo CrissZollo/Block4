@@ -84,7 +84,6 @@ class Alu {
                         }
                     }
                 }
-                this.addAB();
             }
         }
     }
@@ -130,7 +129,7 @@ class Alu {
                 }
             }
         }
-        console.log("Result: " + this.resultArr);
+        resultText.innerHTML = this.resultArr;
     }
 }
 
