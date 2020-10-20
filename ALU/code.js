@@ -142,6 +142,7 @@ class Alu {
 
         for (let i = this.regA.length - 1; i >= 0; i--) {
 
+            // Checks 1 + 1
             if (this.regA[i] === 1 && this.regB[i] === 1) {
                 if (carrie === 1) {
                     tempArr[i] = carrie;
@@ -150,6 +151,7 @@ class Alu {
                     tempArr[i] = 0;
                     carrie = 1;
                 }
+                // Checks if it is a 1 + 0 or 0 + 1
             } else if (this.regA[i] != this.regB[i]) {
                 if (carrie === 1) {
                     tempArr[i] = 0;
@@ -158,6 +160,7 @@ class Alu {
                     tempArr[i] = 1;
                     carrie = 0;
                 }
+                // 0 + 0
             } else {
                 if (carrie === 1) {
                     tempArr[i] = 1;
