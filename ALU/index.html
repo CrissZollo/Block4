@@ -12,21 +12,35 @@
 
 <body>
 
+
+    <select id="selectBase">
+        <option value="2">2</option>
+        <option value="4">4</option>
+        <option value="8">8</option>
+        <option value="16">16</option>
+    </select>
+
+    <select id="selectMethod">
+        <option value="addAB">A + B</option>
+        <option value="subAB">A - B</option>
+        <option value="ror">Rotate Right</option>
+        <option value="rol">Rotate Left</option>
+    </select>
+
     <div class="container">
         <div class="setA">
             <input type="text" class="textBoxA">
             <button class="btnA">Set A</button>
-            <p class="">A</p>
+            <p class="valueA">A</p>
         </div>
 
         <div class="setB">
             <input type="text" class="textBoxB">
             <button class="btnB">Set B</button>
-            <p class="">B</p>
+            <p class="valueB">B</p>
         </div>
 
-        <div class="result">
-            <input type="text" class="textBoxBase">
+        <div class="resultCon">
             <button class="btnResult">Result</button>
             <p class="result">This is the Result</p>
         </div>

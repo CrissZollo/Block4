@@ -8,8 +8,18 @@ body {
 
 .setA,
 .setB,
-.result {
+.resultCon {
     margin-top: 25px;
+    text-align: center;
+}
+
+.container {
+    max-width: 50rem;
+}
+
+select {
+    width: 100px;
+    margin-top: 10px;
 }
 
 
