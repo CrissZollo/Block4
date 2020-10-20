@@ -19,7 +19,6 @@ class Alu {
             case 2:
                 switch (method) {
                     case "addAB":
-                        console.log("Hej")
                         this.resultArr = this.addAB();
                         break;
 
