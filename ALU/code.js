@@ -74,8 +74,12 @@ class Alu {
                             valueA.innerHTML = "";
                             console.log(binary)
                             this.regA = binary;
+                            this.addZeros();
                             for (let i = 0; i < this.regA.length; i++) {
                                 valueA.innerHTML = valueA.innerHTML + this.regA[i]
+                                if ((i + 1) % 4 == 0) {
+                                    valueA.innerHTML = valueA.innerHTML + " ";
+                                }
                             }
                             break;
                         }
@@ -113,8 +117,12 @@ class Alu {
                             valueB.innerHTML = "";
                             console.log(binary)
                             this.regB = binary;
+                            this.addZeros();
                             for (let i = 0; i < this.regB.length; i++) {
                                 valueB.innerHTML = valueB.innerHTML + this.regB[i]
+                                if ((i + 1) % 4 == 0) {
+                                    valueB.innerHTML = valueB.innerHTML + " ";
+                                }
                             }
                             break;
                         }
@@ -266,6 +274,7 @@ class Alu {
             for (let i = this.regA.length; i < 16; i++) {
                 this.regA.unshift(0)
             }
+
             for (let i = this.regB.length; i < 16; i++) {
                 this.regB.unshift(0)
             }
