@@ -26,6 +26,14 @@ class Alu {
                         this.resultArr = this.subAB();
                         break;
 
+                    case "rorA":
+                        this.resultArr = this.rorA(textBoxB.value);
+                        break;
+
+                    case "rolA":
+                        this.resultArr = this.rolA(textBoxB.value);
+                        break;
+
                     default:
                         break;
                 }
@@ -188,7 +196,7 @@ class Alu {
                 }
             }
 
-
+            // adds addOneArr to regB
             for (let i = addOneArr.length - 1; i >= 0; i--) {
                 if (addOneArr[i] === 1 && this.regB[i] === 1) {
                     if (carrie === 1) {
@@ -268,6 +276,46 @@ class Alu {
             return this.addAB();
         }
 
+
+    }
+
+    rorA(x) {
+        let tempArr = this.regA;
+        let lastNumber = 0;
+        for (let j = 0; j < x; j++) {
+            lastNumber = tempArr[tempArr.length - 1];
+            for (let i = tempArr.length - 1; i >= 0; i--) {
+                if (i != 0) {
+                    tempArr[i] = tempArr[i - 1]
+                } else if (i == 0) {
+                    tempArr[i] = lastNumber;
+                }
+            }
+        }
+        return tempArr;
+    }
+
+    rolA(x) {
+        let tempArr = this.regA;
+        let firstNumber = 0;
+        for (let j = 0; j < x; j++) {
+            firstNumber = tempArr[0];
+            for (let i = 0; i < tempArr.length; i++) {
+                if (i != tempArr.length - 1) {
+                    tempArr[i] = tempArr[i + 1]
+                } else if (i == tempArr.length - 1) {
+                    tempArr[i] = firstNumber;
+                }
+            }
+        }
+        return tempArr;
+    }
+
+    rotrA(x) {
+
+    }
+
+    rotlA(x) {
 
     }
 
