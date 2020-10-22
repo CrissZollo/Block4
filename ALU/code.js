@@ -114,7 +114,7 @@ class Alu {
 
         if (textBoxA.value != "" && parseInt(selectBase.value)) {
             if (Number.isInteger(parseInt(textBoxA.value, 10))) {
-                number = parseFloat(textBoxA.value);
+                number = parseFloat(textBoxA.value, 10);
 
                 if (base == 2 && number < Math.pow(2, 16)) {
                     while (true) {
@@ -142,14 +142,14 @@ class Alu {
                             break;
                         }
                     }
-                } else {
+                } else if (base != 2 && number < Math.pow(base, 16)) {
 
                     while (true) {
 
                         temp1 = number;
 
 
-                        for (let i = 0; i < 8; i++) {
+                        while (true) {
                             if (temp1 < base) {
                                 break;
                             }
@@ -237,13 +237,13 @@ class Alu {
                             break;
                         }
                     }
-                } else {
+                } else if (base != 2 && number < Math.pow(base, 16)) {
                     while (true) {
 
                         temp1 = number;
 
 
-                        for (let i = 0; i < 8; i++) {
+                        while (true) {
                             if (temp1 < base) {
                                 break;
                             }
@@ -379,13 +379,13 @@ class Alu {
         }
 
         this.inverted = true;
+        let tempArr = this.addAB();
 
         // Checks if the number is negative
         if (this.addAB()[0] == 1) {
 
             this.negative = true;
 
-            let tempArr = this.addAB();
 
             for (let i = 0; i < tempArr.length; i++) {
                 if (tempArr[i] == 1) {
@@ -425,7 +425,7 @@ class Alu {
             return tempArr;
         } else {
             this.negative = false;
-            return this.addAB();
+            return tempArr;
         }
 
 
