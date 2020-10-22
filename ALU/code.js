@@ -177,7 +177,9 @@ class Alu {
 
                             this.addZeros();
                             for (let i = 0; i < this.regA.length; i++) {
-                                this.regA[i] = this.highBase[this.regA[i]];
+                                if (base > 10) {
+                                    this.regA[i] = this.highBase[this.regA[i]];
+                                }
                                 valueA.innerHTML = valueA.innerHTML + this.regA[i]
                                 if ((i + 1) % 4 == 0) {
                                     valueA.innerHTML = valueA.innerHTML + " ";
@@ -269,7 +271,9 @@ class Alu {
 
                             this.addZeros();
                             for (let i = 0; i < this.regB.length; i++) {
-                                this.regB[i] = this.highBase[this.regB[i]];
+                                if (base > 10) {
+                                    this.regB[i] = this.highBase[this.regB[i]];
+                                }
                                 valueB.innerHTML = valueB.innerHTML + this.regB[i]
                                 if ((i + 1) % 4 == 0) {
                                     valueB.innerHTML = valueB.innerHTML + " ";
