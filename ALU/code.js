@@ -4,6 +4,7 @@ class Alu {
         this.regA = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]; // 16-bit array (regA)
         this.regB = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]; // 16-bit array (regB)
         this.resultArr = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]; // 16-bit array (result)
+        this.highBase = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z']
 
         this.inverted = false;
         this.negative = false;
@@ -111,86 +112,85 @@ class Alu {
         let temp1 = 0.0;
         let amount = 0.0;
 
-        if (textBoxA.value != "") {
+        if (textBoxA.value != "" && parseInt(selectBase.value)) {
             if (Number.isInteger(parseInt(textBoxA.value, 10))) {
                 number = parseFloat(textBoxA.value);
 
-                if (number < Math.pow(2, 16)) {
+                if (base == 2 && number < Math.pow(2, 16)) {
+                    while (true) {
+                        console.log(number);
 
-                    if (base == 2) {
-                        while (true) {
-                            console.log(number);
+                        temp1 = number % 2;
 
-                            temp1 = number % 2;
+                        binary.unshift(temp1)
 
-                            binary.unshift(temp1)
-
-                            temp1 = parseInt(number / 2);
+                        temp1 = parseInt(number / 2);
 
 
-                            number = temp1;
-                            if (number == 0) {
-                                valueA.innerHTML = "";
-                                console.log(binary)
-                                this.regA = binary;
-                                this.addZeros();
-                                for (let i = 0; i < this.regA.length; i++) {
-                                    valueA.innerHTML = valueA.innerHTML + this.regA[i]
-                                    if ((i + 1) % 4 == 0) {
-                                        valueA.innerHTML = valueA.innerHTML + " ";
-                                    }
+                        number = temp1;
+                        if (number == 0) {
+                            valueA.innerHTML = "";
+                            console.log(binary)
+                            this.regA = binary;
+                            this.addZeros();
+                            for (let i = 0; i < this.regA.length; i++) {
+                                valueA.innerHTML = valueA.innerHTML + this.regA[i]
+                                if ((i + 1) % 4 == 0) {
+                                    valueA.innerHTML = valueA.innerHTML + " ";
                                 }
-                                break;
                             }
-                        }
-                    } else {
-
-                        while (true) {
-
-                            temp1 = number;
-
-
-                            for (let i = 0; i < 8; i++) {
-                                if (temp1 < base) {
-                                    break;
-                                }
-                                temp1 = temp1 / base;
-                                amount++;
-                            }
-
-                            temp1 = parseInt(temp1);
-
-                            binary.unshift(temp1);
-
-                            temp1 = temp1 * Math.pow(base, amount);
-                            console.log("Math: " + Math.pow(base, amount));
-                            amount = 0;
-
-
-
-
-                            if (number < base) {
-                                valueA.innerHTML = "";
-                                console.log(binary)
-                                this.regA = binary;
-
-                                binary = binary.reverse();
-
-                                this.addZeros();
-                                for (let i = 0; i < this.regA.length; i++) {
-                                    valueA.innerHTML = valueA.innerHTML + this.regA[i]
-                                    if ((i + 1) % 4 == 0) {
-                                        valueA.innerHTML = valueA.innerHTML + " ";
-                                    }
-                                }
-                                break;
-                            } else {
-                                number = number - temp1;
-                            }
-
+                            break;
                         }
                     }
+                } else {
+
+                    while (true) {
+
+                        temp1 = number;
+
+
+                        for (let i = 0; i < 8; i++) {
+                            if (temp1 < base) {
+                                break;
+                            }
+                            temp1 = temp1 / base;
+                            amount++;
+                        }
+
+                        temp1 = parseInt(temp1);
+
+                        binary.unshift(temp1);
+
+                        temp1 = temp1 * Math.pow(base, amount);
+                        console.log("Math: " + Math.pow(base, amount));
+                        amount = 0;
+
+
+
+
+                        if (number < base) {
+                            valueA.innerHTML = "";
+                            console.log(binary)
+                            this.regA = binary;
+
+                            binary = binary.reverse();
+
+                            this.addZeros();
+                            for (let i = 0; i < this.regA.length; i++) {
+                                this.regA[i] = this.highBase[this.regA[i]];
+                                valueA.innerHTML = valueA.innerHTML + this.regA[i]
+                                if ((i + 1) % 4 == 0) {
+                                    valueA.innerHTML = valueA.innerHTML + " ";
+                                }
+                            }
+                            break;
+                        } else {
+                            number = number - temp1;
+                        }
+
+                    }
                 }
+
             }
         }
     }
@@ -202,87 +202,87 @@ class Alu {
         let temp1 = 0.0;
         let amount = 0.0;
 
-        if (textBoxB.value != "") {
+        if (textBoxB.value != "" && parseInt(selectBase.value)) {
             if (Number.isInteger(parseInt(textBoxB.value, 10))) {
 
                 number = parseInt(textBoxB.value, 10);
 
-                if (number < Math.pow(2, 16)) {
 
-                    if (base == 2) {
+                if (base == 2 && number < Math.pow(2, 16)) {
 
-                        while (true) {
-                            console.log(number);
+                    while (true) {
+                        console.log(number);
 
-                            temp1 = number % 2;
+                        temp1 = number % 2;
 
-                            binary.unshift(temp1)
+                        binary.unshift(temp1)
 
-                            temp1 = parseInt(number / 2);
+                        temp1 = parseInt(number / 2);
 
 
-                            number = temp1;
-                            if (number == 0) {
-                                valueB.innerHTML = "";
-                                console.log(binary)
-                                this.regB = binary;
-                                this.addZeros();
-                                for (let i = 0; i < this.regB.length; i++) {
-                                    valueB.innerHTML = valueB.innerHTML + this.regB[i]
-                                    if ((i + 1) % 4 == 0) {
-                                        valueB.innerHTML = valueB.innerHTML + " ";
-                                    }
+                        number = temp1;
+                        if (number == 0) {
+                            valueB.innerHTML = "";
+                            console.log(binary)
+                            this.regB = binary;
+                            this.addZeros();
+                            for (let i = 0; i < this.regB.length; i++) {
+                                valueB.innerHTML = valueB.innerHTML + this.regB[i]
+                                if ((i + 1) % 4 == 0) {
+                                    valueB.innerHTML = valueB.innerHTML + " ";
                                 }
-                                break;
                             }
+                            break;
                         }
-                    } else {
-                        while (true) {
-
-                            temp1 = number;
-
-
-                            for (let i = 0; i < 8; i++) {
-                                if (temp1 < base) {
-                                    break;
-                                }
-                                temp1 = temp1 / base;
-                                amount++;
-                            }
-
-                            temp1 = parseInt(temp1);
-
-                            binary.unshift(temp1);
-
-                            temp1 = temp1 * Math.pow(base, amount);
-                            console.log("Math: " + Math.pow(base, amount));
-                            amount = 0;
-
-
-
-
-                            if (number < base) {
-                                valueB.innerHTML = "";
-                                console.log(binary)
-                                this.regB = binary;
-
-                                binary = binary.reverse();
-
-                                this.addZeros();
-                                for (let i = 0; i < this.regB.length; i++) {
-                                    valueB.innerHTML = valueB.innerHTML + this.regB[i]
-                                    if ((i + 1) % 4 == 0) {
-                                        valueB.innerHTML = valueB.innerHTML + " ";
-                                    }
-                                }
-                                break;
-                            } else {
-                                number = number - temp1;
-                            }
-                        }
-
                     }
+                } else {
+                    while (true) {
+
+                        temp1 = number;
+
+
+                        for (let i = 0; i < 8; i++) {
+                            if (temp1 < base) {
+                                break;
+                            }
+                            temp1 = temp1 / base;
+                            amount++;
+                        }
+
+                        temp1 = parseInt(temp1);
+
+                        binary.unshift(temp1);
+
+                        temp1 = temp1 * Math.pow(base, amount);
+                        console.log("Math: " + Math.pow(base, amount));
+                        amount = 0;
+
+
+
+
+                        if (number < base) {
+                            valueB.innerHTML = "";
+                            console.log(binary)
+                            this.regB = binary;
+
+                            binary = binary.reverse();
+
+                            this.addZeros();
+                            for (let i = 0; i < this.regB.length; i++) {
+                                this.regB[i] = this.highBase[this.regB[i]];
+                                valueB.innerHTML = valueB.innerHTML + this.regB[i]
+                                if ((i + 1) % 4 == 0) {
+                                    valueB.innerHTML = valueB.innerHTML + " ";
+                                }
+                            }
+                            break;
+                        } else {
+                            number = number - temp1;
+                        }
+                    }
+
                 }
+
             }
         }
         this.inverted = false;
