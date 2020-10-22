@@ -306,27 +306,33 @@ class Alu {
                 if (carrie === 1) {
                     tempArr[i] = carrie;
                     carrie = 1;
+                    this.negative = true;
                 } else {
                     tempArr[i] = 0;
                     carrie = 1;
+                    this.negative = true;
                 }
                 // Checks if it is a 1 + 0 or 0 + 1
             } else if (this.regA[i] != this.regB[i]) {
                 if (carrie === 1) {
                     tempArr[i] = 0;
                     carrie = 1;
+                    this.negative = true;
                 } else {
                     tempArr[i] = 1;
                     carrie = 0;
+                    this.negative = false;
                 }
                 // 0 + 0
             } else {
                 if (carrie === 1) {
                     tempArr[i] = 1;
                     carrie = 0;
+                    this.negative = false;
                 } else {
                     tempArr[i] = 0;
                     carrie = 0;
+                    this.negative = false;
                 }
             }
         }
@@ -335,56 +341,72 @@ class Alu {
 
     subAB() {
 
+        let tempArr = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
         let addOneArr = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1];
         let carrie = 0;
 
+
+        tempArr = this.regB;
+
         if (this.inverted == false) {
 
-            for (let i = 0; i < this.regB.length; i++) {
-                if (this.regB[i] == 1) {
-                    this.regB[i] = 0;
+            for (let i = 0; i < tempArr.length; i++) {
+                if (tempArr[i] == 1) {
+                    tempArr[i] = 0;
                 } else {
-                    this.regB[i] = 1;
+                    tempArr[i] = 1;
                 }
             }
+            console.log("reversed")
 
             // adds addOneArr to regB
             for (let i = addOneArr.length - 1; i >= 0; i--) {
-                if (addOneArr[i] === 1 && this.regB[i] === 1) {
+                if (addOneArr[i] === 1 && tempArr[i] === 1) {
                     if (carrie === 1) {
-                        this.regB[i] = carrie;
+                        tempArr[i] = carrie;
                         carrie = 1;
+                        this.negative = true;
+
                     } else {
-                        this.regB[i] = 0;
+                        tempArr[i] = 0;
                         carrie = 1;
+                        this.negative = true;
+
                     }
-                } else if (addOneArr[i] != this.regB[i]) {
+                } else if (addOneArr[i] != tempArr[i]) {
                     if (carrie === 1) {
-                        this.regB[i] = 0;
+                        tempArr[i] = 0;
                         carrie = 1;
+                        this.negative = true;
+
                     } else {
-                        this.regB[i] = 1;
+                        tempArr[i] = 1;
                         carrie = 0;
+                        this.negative = false;
+
                     }
                 } else {
                     if (carrie === 1) {
-                        this.regB[i] = 1;
+                        tempArr[i] = 1;
                         carrie = 0;
+                        this.negative = false;
+
                     } else {
-                        this.regB[i] = 0;
+                        tempArr[i] = 0;
                         carrie = 0;
+                        this.negative = false;
+
                     }
                 }
             }
         }
 
         this.inverted = true;
-        let tempArr = this.addAB();
+        this.regB = tempArr;
+        tempArr = this.addAB();
 
         // Checks if the number is negative
-        if (this.addAB()[0] == 1) {
-
-            this.negative = true;
+        if (this.negative == true) {
 
 
             for (let i = 0; i < tempArr.length; i++) {
@@ -400,25 +422,37 @@ class Alu {
                     if (carrie === 1) {
                         tempArr[i] = carrie;
                         carrie = 1;
+                        this.negative = true;
+
                     } else {
                         tempArr[i] = 0;
                         carrie = 1;
+                        this.negative = true;
+
                     }
                 } else if (addOneArr[i] != tempArr[i]) {
                     if (carrie === 1) {
                         tempArr[i] = 0;
                         carrie = 1;
+                        this.negative = true;
+
                     } else {
                         tempArr[i] = 1;
                         carrie = 0;
+                        this.negative = false;
+
                     }
                 } else {
                     if (carrie === 1) {
                         tempArr[i] = 1;
                         carrie = 0;
+                        this.negative = false;
+
                     } else {
                         tempArr[i] = 0;
                         carrie = 0;
+                        this.negative = false;
+
                     }
                 }
             }
