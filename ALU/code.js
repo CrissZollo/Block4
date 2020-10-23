@@ -10,7 +10,7 @@ class Alu {
         this.negative = false;
     }
 
-
+    // Prints the result
     result(base, method) {
 
         let binary = "";
@@ -96,6 +96,7 @@ class Alu {
         }
     }
 
+    // Converts array to string and add spaces
     fixBinary(binary) {
         for (let i = 0; i < this.resultArr.length; i++) {
             binary = binary + this.resultArr[i]
@@ -106,6 +107,7 @@ class Alu {
         return binary;
     }
 
+    // Set A
     setRegA(base) {
         let binary = [];
         let number = 0.0;
@@ -197,6 +199,7 @@ class Alu {
         }
     }
 
+    // Set B
     setRegB(base) {
 
         let binary = [];
@@ -292,7 +295,7 @@ class Alu {
         this.inverted = false;
     }
 
-
+    // A + B
     addAB() {
 
         //  1 + 1 is 0 with carrie || 1 + 0 or 0 + 1 is 1 || 0 + 0 is 0 || 
@@ -339,6 +342,7 @@ class Alu {
         return tempArr;
     }
 
+    // A - B
     subAB() {
 
         let tempArr = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
@@ -465,6 +469,7 @@ class Alu {
 
     }
 
+    // Moves everthing to the right
     rorA(x) {
         let tempArr = this.regA;
         let lastNumber = 0;
@@ -481,6 +486,7 @@ class Alu {
         return tempArr;
     }
 
+    // Moves everthing to the left
     rolA(x) {
         let tempArr = this.regA;
         let firstNumber = 0;
@@ -497,6 +503,7 @@ class Alu {
         return tempArr;
     }
 
+    // Moves everthing to the right and add zeros
     shiftrA(x) {
         let tempArr = this.regA;
         for (let j = 0; j < x; j++) {
@@ -511,6 +518,7 @@ class Alu {
         return tempArr;
     }
 
+    // Moves everthing to the left and add zeros
     shiftlA(x) {
         let tempArr = this.regA;
         for (let j = 0; j < x; j++) {
@@ -525,6 +533,7 @@ class Alu {
         return tempArr;
     }
 
+    // AND operator
     andAB() {
         let tempArr = [];
         for (let i = 0; i < this.regA.length; i++) {
@@ -537,6 +546,7 @@ class Alu {
         return tempArr;
     }
 
+    // OR operator
     orAB() {
         let tempArr = [];
         for (let i = 0; i < this.regA.length; i++) {
@@ -550,6 +560,7 @@ class Alu {
 
     }
 
+    // XOR operator
     xorAB() {
         let tempArr = [];
         for (let i = 0; i < this.regA.length; i++) {
@@ -564,6 +575,7 @@ class Alu {
         return tempArr;
     }
 
+    // Add missing zeros to the 16-bit array (A and B)
     addZeros() {
         if (this.regA.length < 16 || this.regB.length < 16) {
             for (let i = this.regA.length; i < 16; i++) {
