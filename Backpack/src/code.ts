@@ -1,47 +1,90 @@
 let itemsText = document.querySelector(".items");
-let items: Object[] = [];
+let table = document.querySelector(".table");
+let items: Item[] = [];
 
 
+class Item {
+    id: number;
+    description: string;
+    weight: number;
+    volume: number;
 
+
+    constructor(id: number, description: string, weight: number, volume: number) {
+        this.id = id;
+        this.description = description;
+        this.weight = weight;
+        this.volume = volume;
+    }
+}
 
 class Backpack {
     maxWeight: Number;
     maxVolume: Number;
-    itemArray: Object[];
-    insideBag: Object[];
+    itemArray: Item[];
+    insideBag: Item[];
 
 
-    constructor(items: Object[]) {
+    constructor(items: Item[]) {
         this.maxWeight = 60;
         this.maxVolume = 50;
         this.itemArray = items;
         this.insideBag = [];
-
-
-
     }
 
 
     AddItem(articleID: number) {
 
-        console.log(this.itemArray);
+
+
+
         this.insideBag.push(this.itemArray[articleID]);
-        console.log(this.itemArray[articleID])
+        console.log(this.insideBag)
     }
 
     RemoveItem(articleID: number, number: number) { }
 
-    ShowItems() { }
+    ShowItems() {
 
-    CurrentWeight() { }
+        for (let item of this.itemArray) {
 
-    CurrentVolume() { }
+            table!.innerHTML +=
+                `
+            <tr>
+            <td>${item.description}</td>
+            <td><button id="${item.description}Min">-</button> 0 <button id="${item.description}Plus">+</button></td>
+            <td>${item.weight}</td>
+            <td>${item.volume}</td>
+            <td>max vikt</td>
+            <td>max volym</td>
+            </tr>
+            `;
+            let btnMinus = document.querySelector(`#${item.description}Min`)
+            // console.log(btnMinus);
+            btnMinus!.addEventListener('click', () => this.RemoveItem(item.id, 1));
+            let btnPlus = document.querySelector(`#${item.description}Plus`)
+            btnPlus!.addEventListener('click', () => this.AddItem(item.id));
+            console.log(btnPlus)
+
+        }
+    }
+
+    CurrentWeight() {
+
+
+    }
+
+    CurrentVolume() {
+
+
+    }
 
     async fetchItems() {
 
     }
 
 }
+
 async function fetchItems() {
 
     // Reads from the items.txt file and give every item specific properties
@@ -65,20 +108,8 @@ async function fetchItems() {
         });
     }
 
-    console.log(tempArray2);
-
-
-    console.log(tempArray1);
     for (let i = 0; i < tempArray1.length; i++) {
-        itemsText!.innerHTML = itemsText!.innerHTML + tempArray1[i];
-
-
-        let item = {
-            itemID: i,
-            description: tempArray2[(i * 3)],
-            weight: tempArray2[(i * 3) + 1],
-            volume: tempArray2[(i * 3) + 2]
-        };
+        let item = new Item(i, tempArray2[(i * 3)], +tempArray2[(i * 3) + 1], +tempArray2[(i * 3) + 2]);
 
         items.push(item);
     }
@@ -87,5 +118,5 @@ async function fetchItems() {
 (async function () {
     await fetchItems();
     let data = new Backpack(items);
-    data.AddItem(5);
+    data.ShowItems();
 })();
