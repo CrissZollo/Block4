@@ -2,7 +2,10 @@
     font-size: 1.5rem;
 }
 
-.table {
+.table,
+.tableBag,
+#addToBag {
     text-align: center;
     width: 100vw;
+    margin-bottom: 4rem;
 }

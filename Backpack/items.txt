@@ -15,4 +15,4 @@ Tröja 0.55 0.6
 Tändare 0.01 0015
 Underkläder 0.04 0.10
 Vattenflaska 0.2 1
-DinMamma 600 600
+DinMamma 45 45
