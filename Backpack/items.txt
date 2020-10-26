@@ -3,7 +3,7 @@ Byxor 0.78kg 0.87l
 Citronpress 0.45kg 0.9l
 Damsadel 22kg 40l
 Espressokopp 0.08kg 0.1l
-Fru 65kg 65l
+Frugan 65kg 65l
 Glödlampa 0.07kg 0.08l
 Häst 300kg 300l
 Ismaskin 4kg 12l
