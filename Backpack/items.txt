@@ -1,0 +1,17 @@
+Anorak 1.3kg 4l
+Byxor 0.78kg 0.87l
+Citronpress 0.45kg 0.9l
+Damsadel 22kg 40l
+Espressokopp 0.08kg 0.1l
+Fru 65kg 65l
+Glödlampa 0.07kg 0.08l
+Häst 300kg 300l
+Ismaskin 4kg 12l
+Regnbyxor 0.49kg 0.40l
+Shorts 0.25kg 0.35l
+Strumpor 0.05kg 0.12l
+T-shirt 0.2kg 0.3l
+Tröja 0.55kg 0.6l
+Tändare 0.01kg 0015l
+Underkläder 0.04kg 0.10l
+Vattenflaska 0.2kg 1l
