@@ -2,6 +2,7 @@
 let itemsText = document.querySelector(".items");
 let table = document.querySelector(".table");
 let tableBag = document.querySelector('.tableBag');
+let changeViewBtn = document.querySelector('#changeView');
 let items = [];
 class Item {
     constructor(id, description, weight, volume) {
@@ -22,12 +23,14 @@ class Backpack {
         this.totalVolume = [];
         this.allWeight = 0;
         this.allVolume = 0;
+        this.inBag = false;
         for (let i = 0; i < items.length; i++) {
             this.amount.push(0);
             this.totalWeight.push(0);
             this.totalVolume.push(0);
         }
     }
+    // add an item
     AddItem(articleID) {
         if (this.allWeight < this.maxWeight
             && this.allVolume < this.maxVolume
@@ -44,7 +47,8 @@ class Backpack {
             this.ShowItems();
         }
     }
-    RemoveItem(articleID, number) {
+    // removes an item
+    RemoveItem(articleID) {
         if (this.amount[articleID] > 0) {
             this.amount[articleID]--;
             this.totalWeight[articleID] = this.itemArray[articleID].weight * this.amount[articleID];
@@ -57,55 +61,60 @@ class Backpack {
             this.ShowItems();
         }
     }
+    // Dispalys the right values and all items on the screen
     ShowItems() {
-        tableBag.innerHTML =
-            `
-        <tr>
-        <th>Artikel</th>
-        <th>Antal</th>
-        <th>Vikt/st (Kg)</th>
-        <th>Volym/st (liter)</th>
-        <th>Total Vikt (Kg)</th>
-        <th>Total Volym (liter)</th>
-        </tr>
-        `;
-        table.innerHTML =
-            `
-        <tr>
-        <th>Artikel</th>
-        <th>Antal</th>
-        <th>Vikt/st (Kg)</th>
-        <th>Volym/st (liter)</th>
-        <th>Total Vikt (Kg)</th>
-        <th>Total Volym (liter)</th>
-        </tr>
-        `;
-        for (let item of this.itemArray) {
-            table.innerHTML +=
+        if (this.inBag == true) {
+            table.innerHTML =
                 `
             <tr>
-            <td>${item.description}</td>
-            <td><button id="${item.description}Min">-</button> ${this.amount[item.id]} <button id="${item.description}Plus">+</button></td>
-            <td>${item.weight}</td>
-            <td>${item.volume}</td>
-            <td>${this.totalWeight[item.id].toFixed(2)}</td>
-            <td>${this.totalVolume[item.id].toFixed(2)}</td>
+            <th>Artikel</th>
+            <th>Antal</th>
+            <th>Vikt/st (Kg)</th>
+            <th>Volym/st (liter)</th>
+            <th>Total Vikt (Kg)</th>
+            <th>Total Volym (liter)</th>
             </tr>
             `;
+            if (this.insideBag.length > 0) {
+                for (let item of this.insideBag) {
+                    table.innerHTML +=
+                        `
+                    <tr>
+                    <td>${item.description}</td>
+                    <td><button id="${item.description}MinBag">-</button> ${this.amount[item.id]} <button id="${item.description}PlusBag">+</button></td>
+                    <td>${item.weight}</td>
+                    <td>${item.volume}</td>
+                    <td>${this.totalWeight[item.id].toFixed(2)}</td>
+                    <td>${this.totalVolume[item.id].toFixed(2)}</td>
+                    </tr>
+                    `;
+                }
+                for (let item of this.insideBag) {
+                    let btnMinusBag = document.querySelector(`#${item.description}MinBag`);
+                    btnMinusBag.addEventListener('click', () => this.RemoveItem(item.id));
+                    let btnPlusBag = document.querySelector(`#${item.description}PlusBag`);
+                    btnPlusBag.addEventListener('click', () => this.AddItem(item.id));
+                }
+            }
         }
-        for (let item of this.itemArray) {
-            let btnMinus = document.querySelector(`#${item.description}Min`);
-            btnMinus.addEventListener('click', () => this.RemoveItem(item.id, 1));
-            let btnPlus = document.querySelector(`#${item.description}Plus`);
-            btnPlus.addEventListener('click', () => this.AddItem(item.id));
-        }
-        if (this.insideBag.length > 0) {
-            for (let item of this.insideBag) {
-                tableBag.innerHTML +=
+        else {
+            table.innerHTML =
+                `
+            <tr>
+            <th>Artikel</th>
+            <th>Antal</th>
+            <th>Vikt/st (Kg)</th>
+            <th>Volym/st (liter)</th>
+            <th>Total Vikt (Kg)</th>
+            <th>Total Volym (liter)</th>
+            </tr>
+            `;
+            for (let item of this.itemArray) {
+                table.innerHTML +=
                     `
                 <tr>
                 <td>${item.description}</td>
-                <td><button id="${item.description}MinBag">-</button> ${this.amount[item.id]} <button id="${item.description}PlusBag">+</button></td>
+                <td><button id="${item.description}Min">-</button> ${this.amount[item.id]} <button id="${item.description}Plus">+</button></td>
                 <td>${item.weight}</td>
                 <td>${item.volume}</td>
                 <td>${this.totalWeight[item.id].toFixed(2)}</td>
@@ -113,14 +122,15 @@ class Backpack {
                 </tr>
                 `;
             }
-            for (let item of this.insideBag) {
-                let btnMinusBag = document.querySelector(`#${item.description}MinBag`);
-                btnMinusBag.addEventListener('click', () => this.RemoveItem(item.id, 1));
-                let btnPlusBag = document.querySelector(`#${item.description}PlusBag`);
-                btnPlusBag.addEventListener('click', () => this.AddItem(item.id));
+            for (let item of this.itemArray) {
+                let btnMinus = document.querySelector(`#${item.description}Min`);
+                btnMinus.addEventListener('click', () => this.RemoveItem(item.id));
+                let btnPlus = document.querySelector(`#${item.description}Plus`);
+                btnPlus.addEventListener('click', () => this.AddItem(item.id));
             }
         }
     }
+    // Calculates the current weight
     CurrentWeight() {
         this.allWeight = 0;
         for (let i = 0; i < this.itemArray.length; i++) {
@@ -128,12 +138,19 @@ class Backpack {
         }
         console.log("Weight: " + this.allWeight);
     }
+    // Calculates the current volume
     CurrentVolume() {
         this.allVolume = 0;
         for (let i = 0; i < this.itemArray.length; i++) {
             this.allVolume += this.totalVolume[i];
         }
         console.log("Volume: " + this.allVolume);
+    }
+    // Changes from view (bag or all items)
+    changeView() {
+        this.inBag = !this.inBag;
+        console.log(this.inBag);
+        this.ShowItems();
     }
 }
 async function fetchItems() {
@@ -160,5 +177,6 @@ async function fetchItems() {
 (async function () {
     await fetchItems();
     let data = new Backpack(items);
+    changeViewBtn.addEventListener('click', () => data.changeView());
     data.ShowItems();
 })();

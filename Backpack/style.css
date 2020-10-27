@@ -7,5 +7,15 @@
 #addToBag {
     text-align: center;
     width: 100vw;
-    margin-bottom: 4rem;
+    margin: 4rem 0;
+}
+
+.btn {
+    display: flex;
+    justify-content: center;
+}
+
+#changeView {
+    width: 20rem;
+    font-size: 3rem;
 }
