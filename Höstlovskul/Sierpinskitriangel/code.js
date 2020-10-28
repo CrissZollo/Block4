@@ -1,5 +1,7 @@
 let circles = [];
 let startCircles = 0;
+let corners = 3;
+let toDegrees = Math.PI / 180;
 
 
 var config = {
@@ -15,24 +17,43 @@ var config = {
 
 var game = new Phaser.Game(config);
 
+var graphics;
+
 function preload() {
     this.load.image('circle', 'img/circle.png');
 }
 
 function create() {
 
-    let circleP1 = this.add.sprite(window.innerWidth / 2, 10, 'circle');
-    circleP1.setScale(0.003);
-    circles.push(circleP1);
-    let circleP2 = this.add.sprite(window.innerWidth / 4, window.innerHeight - 10, 'circle');
-    circleP2.setScale(0.003);
-    circles.push(circleP2);
-    let circleP3 = this.add.sprite(window.innerWidth / 2 + window.innerWidth / 4, window.innerHeight - 10, 'circle');
-    circleP3.setScale(0.003);
-    circles.push(circleP3);
-    // let circleP4 = this.add.sprite(window.innerWidth / 2 + window.innerWidth / 4, 10, 'circle');
-    // circleP4.setScale(0.003);
-    // circles.push(circleP4)
+    graphics = this.add.graphics();
+
+    graphics.lineStyle(4, 0xffff00, 0);
+
+    let a = new Phaser.Geom.Point(window.innerWidth / 2, window.innerHeight / 2);
+    let radius = window.innerHeight / 2 - 10;
+
+    graphics.strokeCircle(a.x, a.y, radius);
+
+
+    let degrees = 360 / corners;
+    let offset = -90;
+
+
+    for (let i = 0; i < corners; i++) {
+        let x = a.x + radius * Math.cos(((degrees * i) + offset) * toDegrees)
+        let y = a.y + radius * Math.sin(((degrees * i) + offset) * toDegrees)
+        let circleP = this.add.sprite(x, y, 'circle');
+        circleP.setScale(0.01);
+        circles.push(circleP);
+        console.log(x + " " + y);
+    }
+
+    if (corners == 3) {
+        circles[0].tint = Phaser.Display.Color.GetColor(255, 0, 0); //Red
+        circles[1].tint = Phaser.Display.Color.GetColor(0, 255, 0); // Green
+        circles[2].tint = Phaser.Display.Color.GetColor(0, 0, 255); // Blue
+    }
+
 
 
     startCircles = circles.length;
@@ -44,14 +65,12 @@ function update() {
     let newCircle = this.add.sprite(positions[0], positions[1], 'circle');
     newCircle.setScale(0.002);
     circles.push(newCircle);
-    console.log(circles)
+    changeRGB();
+
 }
 
 const CalculatePos = (lastX, lastY) => {
     let random = Math.floor(Math.random() * startCircles)
-
-    console.log(lastX + " " + lastY)
-
 
     let randomCircle = circles[random];
 
@@ -83,4 +102,19 @@ const CalculatePos = (lastX, lastY) => {
     let posY = biggestY - (dy / 2);
 
     return [posX, posY];
+}
+
+function changeRGB() {
+
+    if (corners == 3) {
+
+        let distance = Phaser.Math.Distance.BetweenPoints(circles[0], circles[1]);
+        let colorDistance = 255 + distance;
+
+        let red = (distance - Phaser.Math.Distance.BetweenPoints(circles[circles.length - 1], circles[0])) / colorDistance;
+        let green = (distance - Phaser.Math.Distance.BetweenPoints(circles[circles.length - 1], circles[1])) / colorDistance;
+        let blue = (distance - Phaser.Math.Distance.BetweenPoints(circles[circles.length - 1], circles[2])) / colorDistance;
+
+        circles[circles.length - 1].tint = Phaser.Display.Color.GetColor(red * 255, green * 255, blue * 255);
+    }
 }
