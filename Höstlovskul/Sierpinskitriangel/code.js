@@ -43,7 +43,7 @@ function create() {
         let x = a.x + radius * Math.cos(((degrees * i) + offset) * toDegrees)
         let y = a.y + radius * Math.sin(((degrees * i) + offset) * toDegrees)
         let circleP = this.add.sprite(x, y, 'circle');
-        circleP.setScale(0.01);
+        circleP.setScale(0.002);
         circles.push(circleP);
         console.log(x + " " + y);
     }
@@ -61,14 +61,19 @@ function create() {
 
 function update() {
 
-    let positions = CalculatePos(circles[circles.length - 1].x, circles[circles.length - 1].y);
-    let newCircle = this.add.sprite(positions[0], positions[1], 'circle');
-    newCircle.setScale(0.002);
-    circles.push(newCircle);
+    let positions1 = CalculatePos(circles[circles.length - 1].x, circles[circles.length - 1].y);
+    let positions2 = CalculatePos(circles[circles.length - 2].x, circles[circles.length - 2].y);
+    let newCircle1 = this.add.sprite(positions1[0], positions1[1], 'circle');
+    let newCircle2 = this.add.sprite(positions2[0], positions2[1], 'circle');
+    newCircle1.setScale(0.002);
+    newCircle2.setScale(0.002);
+    circles.push(newCircle1);
+    circles.push(newCircle2);
     changeRGB();
 
 }
 
+// Calculates a position for a new circle
 const CalculatePos = (lastX, lastY) => {
     let random = Math.floor(Math.random() * startCircles)
 
@@ -104,10 +109,10 @@ const CalculatePos = (lastX, lastY) => {
     return [posX, posY];
 }
 
+// Changes the color to the right RGB Color
 function changeRGB() {
 
     if (corners == 3) {
-
         let distance = Phaser.Math.Distance.BetweenPoints(circles[0], circles[1]);
         let colorDistance = 255 + distance;
 
@@ -116,5 +121,11 @@ function changeRGB() {
         let blue = (distance - Phaser.Math.Distance.BetweenPoints(circles[circles.length - 1], circles[2])) / colorDistance;
 
         circles[circles.length - 1].tint = Phaser.Display.Color.GetColor(red * 255, green * 255, blue * 255);
+
+        let red2 = (distance - Phaser.Math.Distance.BetweenPoints(circles[circles.length - 2], circles[0])) / colorDistance;
+        let green2 = (distance - Phaser.Math.Distance.BetweenPoints(circles[circles.length - 2], circles[1])) / colorDistance;
+        let blue2 = (distance - Phaser.Math.Distance.BetweenPoints(circles[circles.length - 2], circles[2])) / colorDistance;
+
+        circles[circles.length - 2].tint = Phaser.Display.Color.GetColor(red2 * 255, green2 * 255, blue2 * 255);
     }
 }
