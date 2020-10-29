@@ -1,0 +1,13 @@
+body {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+table {
+    margin-right: 100px;
+}
+
+input[type="text"] {
+    text-align: center;
+}
