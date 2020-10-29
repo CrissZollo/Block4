@@ -1,6 +1,6 @@
 let circles = [];
 let startCircles = 0;
-let corners = 6;
+let corners = 3;
 let toDegrees = Math.PI / 180;
 
 
@@ -27,7 +27,7 @@ function create() {
 
     graphics = this.add.graphics();
 
-    graphics.lineStyle(4, 0xffff00, 1);
+    graphics.lineStyle(4, 0xffff00, 0);
 
     let a = new Phaser.Geom.Point(window.innerWidth / 2, window.innerHeight / 2);
     let radius = window.innerHeight / 2 - 10;
@@ -43,7 +43,7 @@ function create() {
         let x = a.x + radius * Math.cos(((degrees * i) + offset) * toDegrees)
         let y = a.y + radius * Math.sin(((degrees * i) + offset) * toDegrees)
         let circleP = this.add.sprite(x, y, 'circle');
-        circleP.setScale(0.01);
+        circleP.setScale(0.002);
         circles.push(circleP);
         console.log(x + " " + y);
     }
@@ -62,15 +62,19 @@ function create() {
 // Creates two new circles every frame
 function update() {
 
-    let positions1 = CalculatePos(circles[circles.length - 1].x, circles[circles.length - 1].y);
-    let positions2 = CalculatePos(circles[circles.length - 2].x, circles[circles.length - 2].y);
-    let newCircle1 = this.add.sprite(positions1[0], positions1[1], 'circle');
-    let newCircle2 = this.add.sprite(positions2[0], positions2[1], 'circle');
-    newCircle1.setScale(0.002);
-    newCircle2.setScale(0.002);
-    circles.push(newCircle1);
-    circles.push(newCircle2);
-    changeRGB();
+    if (circles.length < 15000) {
+
+        let positions1 = CalculatePos(circles[circles.length - 1].x, circles[circles.length - 1].y);
+        let positions2 = CalculatePos(circles[circles.length - 2].x, circles[circles.length - 2].y);
+        let newCircle1 = this.add.sprite(positions1[0], positions1[1], 'circle');
+        let newCircle2 = this.add.sprite(positions2[0], positions2[1], 'circle');
+        newCircle1.setScale(0.002);
+        newCircle2.setScale(0.002);
+        circles.push(newCircle1);
+        circles.push(newCircle2);
+        changeRGB();
+        console.log(circles.length)
+    }
 
 }
 
