@@ -1,6 +1,6 @@
 let circles = [];
 let startCircles = 0;
-let corners = 3;
+let corners = 6;
 let toDegrees = Math.PI / 180;
 
 
@@ -27,7 +27,7 @@ function create() {
 
     graphics = this.add.graphics();
 
-    graphics.lineStyle(4, 0xffff00, 0);
+    graphics.lineStyle(4, 0xffff00, 1);
 
     let a = new Phaser.Geom.Point(window.innerWidth / 2, window.innerHeight / 2);
     let radius = window.innerHeight / 2 - 10;
@@ -43,7 +43,7 @@ function create() {
         let x = a.x + radius * Math.cos(((degrees * i) + offset) * toDegrees)
         let y = a.y + radius * Math.sin(((degrees * i) + offset) * toDegrees)
         let circleP = this.add.sprite(x, y, 'circle');
-        circleP.setScale(0.002);
+        circleP.setScale(0.01);
         circles.push(circleP);
         console.log(x + " " + y);
     }
@@ -59,6 +59,7 @@ function create() {
     startCircles = circles.length;
 }
 
+// Creates two new circles every frame
 function update() {
 
     let positions1 = CalculatePos(circles[circles.length - 1].x, circles[circles.length - 1].y);
@@ -113,6 +114,7 @@ const CalculatePos = (lastX, lastY) => {
 function changeRGB() {
 
     if (corners == 3) {
+
         let distance = Phaser.Math.Distance.BetweenPoints(circles[0], circles[1]);
         let colorDistance = 255 + distance;
 
@@ -127,5 +129,10 @@ function changeRGB() {
         let blue2 = (distance - Phaser.Math.Distance.BetweenPoints(circles[circles.length - 2], circles[2])) / colorDistance;
 
         circles[circles.length - 2].tint = Phaser.Display.Color.GetColor(red2 * 255, green2 * 255, blue2 * 255);
+    } else {
+
+        circles[circles.length - 1].tint = Phaser.Display.Color.GetColor(255, 0, 0);
+        circles[circles.length - 2].tint = Phaser.Display.Color.GetColor(255, 0, 0);
     }
+
 }
