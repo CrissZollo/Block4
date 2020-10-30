@@ -9,38 +9,43 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="">
     <link rel="stylesheet" href="style.css">
-    <script src="//cdn.jsdelivr.net/npm/phaser@3.24.1/dist/phaser.js"></script>
-    <script src="//cdn.jsdelivr.net/npm/phaser@3.24.1/dist/phaser.min.js"></script>
+
 </head>
 
 <body>
 
-    <table>
-        <tr>
-            <th></th>
-            <th>Amplitud</th>
-            <th>Frekvens</th>
-            <th></th>
-        </tr>
-        <tr>
-            <td>Sinus 1</td>
-            <td><input type="text"></td>
-            <td><input type="text"></td>
-            <td><button>Set</button></td>
-        </tr>
-        <tr>
-            <td>Sinus 2</td>
-            <td><input type="text"></td>
-            <td><input type="text"></td>
-            <td><button>Set</button></td>
-        </tr>
-        <tr>
-            <td>Sinus 3</td>
-            <td><input type="text"></td>
-            <td><input type="text"></td>
-            <td><button>Set</button></td>
-        </tr>
-    </table>
+    <canvas width="800" height="800"></canvas>
+
+    <div>
+        <table>
+            <tr>
+                <th></th>
+                <th>Amplitud</th>
+                <th>Frekvens</th>
+                <th></th>
+            </tr>
+            <tr>
+                <td>Sinus 1</td>
+                <td><input type="text" id="sinA1"></td>
+                <td><input type="text" id="sinF1"></td>
+                <td><button id="sin1Btn">Set</button></td>
+            </tr>
+            <tr>
+                <td>Sinus 2</td>
+                <td><input type="text" id="sinA2"></td>
+                <td><input type="text" id="sinF2"></td>
+                <td><button id="sin2Btn">Set</button></td>
+            </tr>
+            <tr>
+                <td>Sinus 3</td>
+                <td><input type="text" id="sinA3"></td>
+                <td><input type="text" id="sinF3"></td>
+                <td><button id="sin3Btn">Set</button></td>
+            </tr>
+        </table>
+        <button id="addBtn">Add</button>
+    </div>
+
 
     <script src="code.js" async defer></script>
 </body>

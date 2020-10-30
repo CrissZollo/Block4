@@ -11,3 +11,12 @@ table {
 input[type="text"] {
     text-align: center;
 }
+
+#addBtn {
+    width: 450px;
+    margin: 0 2px;
+}
+
+canvas {
+    background-color: black;
+}
