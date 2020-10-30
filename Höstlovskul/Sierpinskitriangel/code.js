@@ -1,13 +1,16 @@
+let iterationText = document.querySelector(".iterations");
+
 let circles = [];
 let startCircles = 0;
 let corners = 3;
 let toDegrees = Math.PI / 180;
-
+let canvasSize = 800
+let iterations = 0;
 
 var config = {
     type: Phaser.AUTO,
-    width: window.innerWidth,
-    height: window.innerHeight,
+    width: canvasSize,
+    height: canvasSize,
     scene: {
         preload: preload,
         create: create,
@@ -20,7 +23,7 @@ var game = new Phaser.Game(config);
 var graphics;
 
 function preload() {
-    this.load.image('circle', 'img/circle.png');
+    this.load.image('circle', 'img/circleWhite.png');
 }
 
 function create() {
@@ -29,8 +32,8 @@ function create() {
 
     graphics.lineStyle(4, 0xffff00, 0);
 
-    let a = new Phaser.Geom.Point(window.innerWidth / 2, window.innerHeight / 2);
-    let radius = window.innerHeight / 2 - 10;
+    let a = new Phaser.Geom.Point(canvasSize / 2, canvasSize / 2);
+    let radius = canvasSize / 2 - 10;
 
     graphics.strokeCircle(a.x, a.y, radius);
 
@@ -62,7 +65,7 @@ function create() {
 // Creates two new circles every frame
 function update() {
 
-    if (circles.length < 15000) {
+    if (iterations < 15000) {
 
         let positions1 = CalculatePos(circles[circles.length - 1].x, circles[circles.length - 1].y);
         let positions2 = CalculatePos(circles[circles.length - 2].x, circles[circles.length - 2].y);
@@ -73,7 +76,8 @@ function update() {
         circles.push(newCircle1);
         circles.push(newCircle2);
         changeRGB();
-        console.log(circles.length)
+        iterations++;
+        iterationText.innerHTML = "Iterations: " + iterations * 2;
     }
 
 }
@@ -135,8 +139,8 @@ function changeRGB() {
         circles[circles.length - 2].tint = Phaser.Display.Color.GetColor(red2 * 255, green2 * 255, blue2 * 255);
     } else {
 
-        circles[circles.length - 1].tint = Phaser.Display.Color.GetColor(255, 0, 0);
-        circles[circles.length - 2].tint = Phaser.Display.Color.GetColor(255, 0, 0);
+        // circles[circles.length - 1].tint = Phaser.Display.Color.GetColor(255, 0, 0);
+        // circles[circles.length - 2].tint = Phaser.Display.Color.GetColor(255, 0, 0);
     }
 
 }
