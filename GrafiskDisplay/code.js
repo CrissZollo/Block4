@@ -104,17 +104,25 @@ class Canvas {
         this.putPixle(x1, y1, color);
         this.putPixle(x2, y2, color);
 
-        let a = x1 - x2;
-        a = a * a;
-        let b = y1 - y2;
-        b = b * b;
-
-        let distance = Math.sqrt(a + b);
-
-        console.log(distance);
-
-        // let index = this.amountOfRec * y + x;
-
+        if (y2 - y1 > x2 - x1 || y1 - y2 > x1 - x2) {
+            for (let i = 0; i < 100; i++) {
+                let x = parseInt(x1 + ((x2 - x1) / (y2 - y1)) * i);
+                let y = y1 + i;
+                this.putPixle(x, y, color);
+                if (x == x2) {
+                    break;
+                }
+            }
+        } else {
+            for (let i = 0; i < 100; i++) {
+                let x = x1 + i
+                let y = parseInt(y1 + ((y2 - y1) / (x2 - x1)) * i);
+                this.putPixle(x, y, color);
+                if (x == x2) {
+                    break;
+                }
+            }
+        }
 
     }
 
@@ -134,7 +142,7 @@ let data = new Canvas();
 
 // data.clear("#FFFFFF");
 // data.putPixle(38, 25, "#00FF00");
-data.line(0, 20, 30, 20, "#000000");
+data.line(20, 5, 20, 20, "#000000");
 // data.circle(20, 20, 5, "#000000");
 
 // Inte klara //
