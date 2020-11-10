@@ -16,8 +16,15 @@ class Canvas {
 
 
         for (let i = 0; i < this.amountOfRec * this.amountOfRec; i++) {
-            this.draw.fillStyle = `rgb(${Math.floor(Math.random() * 256)},${Math.floor(Math.random() * 256)} ,${Math.floor(Math.random() * 256)})`;
-            // this.draw.fillStyle = `#704214`;
+
+            let r = Math.floor(Math.random() * 256);
+            let g = Math.floor(Math.random() * 256);
+            let b = Math.floor(Math.random() * 256);
+
+
+
+            // this.draw.fillStyle = `rgb(${r},${g} ,${b})`;
+            this.draw.fillStyle = `#704214`;
             this.colorArr.push(this.draw.fillStyle);
             if (i % this.amountOfRec == 0 && i != 0) {
                 this.xPos = 0;
@@ -29,6 +36,17 @@ class Canvas {
             this.xPos++;
         }
     }
+
+    clear(color) {
+        this.draw.clearRect(0, 0, canvas.width, canvas.height)
+
+        for (let i = 0; i < this.recArr.length; i++) {
+            this.draw.fillStyle = color;
+            this.draw.fillRect(this.recArr[i][0], this.recArr[i][1], this.recArr[i][2], this.recArr[i][3])
+        }
+
+    }
+
 
     fadeIn() {
         let target = 255;
@@ -52,19 +70,24 @@ class Canvas {
 
     }
 
-    clear(color) {
-        this.draw.clearRect(0, 0, canvas.width, canvas.height)
-
-        for (let i = 0; i < this.recArr.length; i++) {
-            this.draw.fillStyle = color;
-            this.draw.fillRect(this.recArr[i][0], this.recArr[i][1], this.recArr[i][2], this.recArr[i][3])
-        }
-
-    }
 
     fadeOut() {}
 
-    scrollLeft() {}
+    scrollLeft() {
+        this.draw.clearRect(0, 0, canvas.width / this.amountOfRec, canvas.height)
+
+
+
+        for (let i = 0; i < this.recArr.length - this.amountOfRec; i++) {
+
+            this.draw.fillStyle = this.colorArr[i];
+            this.draw.fillRect(this.recArr[i][0], this.recArr[i][1], this.recArr[i][2], this.recArr[i][3])
+
+            if (i % this.amountOfRec == 0 && i != 0) {
+                this.draw.clearRect(this.recArr[i - 1][0], this.recArr[i - 1][1], this.recArr[i - 1][2], this.recArr[i - 1][3])
+            }
+        }
+    }
 
     scrollRight() {}
 
@@ -77,20 +100,45 @@ class Canvas {
         }
     }
 
-    line() {}
+    line(x1, y1, x2, y2, color) {
+        this.putPixle(x1, y1, color);
+        this.putPixle(x2, y2, color);
 
-    circle() {}
+        let a = x1 - x2;
+        a = a * a;
+        let b = y1 - y2;
+        b = b * b;
+
+        let distance = Math.sqrt(a + b);
+
+        console.log(distance);
+
+        // let index = this.amountOfRec * y + x;
+
+
+    }
+
+    circle(x, y, radius, color) {
+
+        this.putPixle(x, y, color)
+        for (let i = 0; i < 360; i++) {
+
+            this.putPixle(parseInt(Math.cos(i) * radius) + x, parseInt(Math.sin(i) * radius) + y, color)
+        }
+    }
 }
 
 let data = new Canvas();
 
 
 
-// data.fadeIn();
 // data.clear("#FFFFFF");
+// data.putPixle(38, 25, "#00FF00");
+data.line(0, 20, 30, 20, "#000000");
+// data.circle(20, 20, 5, "#000000");
+
+// Inte klara //
+// data.fadeIn();
 // data.fadeOut();
 // data.scrollLeft();
 // data.scrollRight();
-// data.putPixle(38, 25, "#00FF00");
-// data.line();
-// data.circle();
