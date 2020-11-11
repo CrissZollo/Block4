@@ -20,18 +20,18 @@ class Canvas {
         for (let i = 0; i < this.amountOfRec * this.amountOfRec; i++) {
 
 
-            // if (black) {
+            if (black) {
 
-            //     this.draw.fillStyle = `#000000`;
-            // } else {
-            //     this.draw.fillStyle = `#FFFFFF`;
+                this.draw.fillStyle = `#000000`;
+            } else {
+                this.draw.fillStyle = `#FFFFFF`;
 
-            // }
+            }
 
             let r = Math.floor(Math.random() * 256);
             let g = Math.floor(Math.random() * 256);
             let b = Math.floor(Math.random() * 256);
-            this.draw.fillStyle = `rgb(${r},${g} ,${b})`;
+            // this.draw.fillStyle = `rgb(${r},${g} ,${b})`;
 
             // this.draw.fillStyle = `#704214`;
 
@@ -39,12 +39,12 @@ class Canvas {
             if (i % this.amountOfRec == 0 && i != 0) {
                 this.xPos = 0;
                 this.yPos++;
+                black = !black;
             }
             this.draw.fillRect((canvas.width / this.amountOfRec) * this.xPos, (canvas.width / this.amountOfRec) * this.yPos, (canvas.width / this.amountOfRec), (canvas.height / this.amountOfRec));
             this.recArr.push([(canvas.width / this.amountOfRec) * this.xPos, (canvas.width / this.amountOfRec) * this.yPos, (canvas.width / this.amountOfRec), (canvas.height / this.amountOfRec)]);
 
             this.xPos++;
-            black = !black;
         }
     }
 
@@ -97,7 +97,17 @@ class Canvas {
         this.draw.clearRect(canvas.width - canvas.width / this.amountOfRec, 0, canvas.width / this.amountOfRec, canvas.height)
     }
 
-    scrollRight() {}
+    scrollRight() {
+        this.draw.clearRect(canvas.width - canvas.width / this.amountOfRec, 0, canvas.width / this.amountOfRec, canvas.height)
+
+        for (let i = 0; i < this.recArr.length; i++) {
+
+            this.draw.fillStyle = this.colorArr[i - 1];
+            this.draw.fillRect(this.recArr[i][0], this.recArr[i][1], this.recArr[i][2], this.recArr[i][3])
+        }
+
+        this.draw.clearRect(0, 0, canvas.width / this.amountOfRec, canvas.height)
+    }
 
     putPixle(x, y, color) {
         if (x >= 0 && x < this.amountOfRec && y >= 0 && y < this.amountOfRec) {
@@ -155,5 +165,5 @@ let data = new Canvas();
 // Inte klara //
 // data.fadeIn();
 // data.fadeOut();
-data.scrollLeft();
-// data.scrollRight();
+// data.scrollLeft();
+data.scrollRight();
