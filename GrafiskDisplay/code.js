@@ -17,14 +17,24 @@ class Canvas {
 
         for (let i = 0; i < this.amountOfRec * this.amountOfRec; i++) {
 
+
+            // let random = Math.floor(Math.random() * 2);
+
+            // if (random == 0) {
+
+            //     this.draw.fillStyle = `#FFFFFF`;
+            // } else {
+            //     this.draw.fillStyle = `#000000`;
+
+            // }
+
             let r = Math.floor(Math.random() * 256);
             let g = Math.floor(Math.random() * 256);
             let b = Math.floor(Math.random() * 256);
+            this.draw.fillStyle = `rgb(${r},${g} ,${b})`;
 
+            // this.draw.fillStyle = `#704214`;
 
-
-            // this.draw.fillStyle = `rgb(${r},${g} ,${b})`;
-            this.draw.fillStyle = `#704214`;
             this.colorArr.push(this.draw.fillStyle);
             if (i % this.amountOfRec == 0 && i != 0) {
                 this.xPos = 0;
@@ -140,10 +150,10 @@ let data = new Canvas();
 
 
 
-// data.clear("#FFFFFF");
-// data.putPixle(38, 25, "#00FF00");
-data.line(20, 5, 20, 20, "#000000");
-// data.circle(20, 20, 5, "#000000");
+// data.clear("#ff0000");
+// data.putPixle(22, 10, "#00FF00");
+// data.line(10, 10, 20, 10, "#000000");
+// data.circle(20, 20, 10, "#000000");
 
 // Inte klara //
 // data.fadeIn();
