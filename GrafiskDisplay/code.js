@@ -14,17 +14,17 @@ class Canvas {
         this.xPos = 0;
         this.yPos = 0;
 
+        let black = false;
+
 
         for (let i = 0; i < this.amountOfRec * this.amountOfRec; i++) {
 
 
-            // let random = Math.floor(Math.random() * 2);
+            // if (black) {
 
-            // if (random == 0) {
-
-            //     this.draw.fillStyle = `#FFFFFF`;
-            // } else {
             //     this.draw.fillStyle = `#000000`;
+            // } else {
+            //     this.draw.fillStyle = `#FFFFFF`;
 
             // }
 
@@ -44,6 +44,7 @@ class Canvas {
             this.recArr.push([(canvas.width / this.amountOfRec) * this.xPos, (canvas.width / this.amountOfRec) * this.yPos, (canvas.width / this.amountOfRec), (canvas.height / this.amountOfRec)]);
 
             this.xPos++;
+            black = !black;
         }
     }
 
@@ -71,7 +72,7 @@ class Canvas {
             let green = (target - parseInt(this.colorArr[i][3] * this.colorArr[i][4] - 1)) / this.recArr.length;
             let blue = (target - parseInt(this.colorArr[i][6] * this.colorArr[i][7] - 1)) / this.recArr.length;
 
-            this.draw.fillStyle = `rgb(${startRed = red},${startGreen += green},${startBlue += blue})`;
+            this.draw.fillStyle = `rgb(${startRed += red},${startGreen += green},${startBlue += blue})`;
             this.draw.fillRect(this.recArr[i][0], this.recArr[i][1], this.recArr[i][2], this.recArr[i][3])
         }
         // setInterval(function () {
@@ -87,16 +88,13 @@ class Canvas {
         this.draw.clearRect(0, 0, canvas.width / this.amountOfRec, canvas.height)
 
 
+        for (let i = 0; i < this.recArr.length; i++) {
 
-        for (let i = 0; i < this.recArr.length - this.amountOfRec; i++) {
-
-            this.draw.fillStyle = this.colorArr[i];
+            this.draw.fillStyle = this.colorArr[i + 1];
             this.draw.fillRect(this.recArr[i][0], this.recArr[i][1], this.recArr[i][2], this.recArr[i][3])
-
-            if (i % this.amountOfRec == 0 && i != 0) {
-                this.draw.clearRect(this.recArr[i - 1][0], this.recArr[i - 1][1], this.recArr[i - 1][2], this.recArr[i - 1][3])
-            }
         }
+
+        this.draw.clearRect(canvas.width - canvas.width / this.amountOfRec, 0, canvas.width / this.amountOfRec, canvas.height)
     }
 
     scrollRight() {}
@@ -114,34 +112,33 @@ class Canvas {
         this.putPixle(x1, y1, color);
         this.putPixle(x2, y2, color);
 
-        if (y2 - y1 > x2 - x1 || y1 - y2 > x1 - x2) {
-            for (let i = 0; i < 100; i++) {
-                let x = parseInt(x1 + ((x2 - x1) / (y2 - y1)) * i);
-                let y = y1 + i;
-                this.putPixle(x, y, color);
-                if (x == x2) {
-                    break;
-                }
-            }
-        } else {
-            for (let i = 0; i < 100; i++) {
-                let x = x1 + i
-                let y = parseInt(y1 + ((y2 - y1) / (x2 - x1)) * i);
-                this.putPixle(x, y, color);
-                if (x == x2) {
-                    break;
-                }
+        for (let i = 0; i < 100; i++) {
+            let x = x1 + i;
+            let y = Math.round(y1 + ((y2 - y1) / (x2 - x1)) * i);
+            this.putPixle(x, y, color);
+            if (x == x2) {
+                break;
             }
         }
+        // if (y2 - y1 > x2 - x1 || y1 - y2 > x1 - x2) {
+        // } else {
+        //     for (let i = 0; i < 100; i++) {
+        //         let x = x1 + i
+        //         let y = Math.round(y1 + ((y2 - y1) / (x2 - x1)) * i);
+        //         this.putPixle(x, y, color);
+        //         if (x == x2) {
+        //             break;
+        //         }
+        //     }
+        // }
 
     }
 
     circle(x, y, radius, color) {
 
         this.putPixle(x, y, color)
-        for (let i = 0; i < 360; i++) {
-
-            this.putPixle(parseInt(Math.cos(i) * radius) + x, parseInt(Math.sin(i) * radius) + y, color)
+        for (let i = 1; i < 360; i++) {
+            this.putPixle(Math.round(Math.cos(i) * radius) + x, Math.round(Math.sin(i) * radius) + y, color)
         }
     }
 }
@@ -152,11 +149,11 @@ let data = new Canvas();
 
 // data.clear("#ff0000");
 // data.putPixle(22, 10, "#00FF00");
-// data.line(10, 10, 20, 10, "#000000");
-// data.circle(20, 20, 10, "#000000");
+// data.line(0, 0, 20, 35, "#000000");
+// data.circle(20, 20, 20, "#000000");
 
 // Inte klara //
 // data.fadeIn();
 // data.fadeOut();
-// data.scrollLeft();
+data.scrollLeft();
 // data.scrollRight();
