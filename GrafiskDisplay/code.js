@@ -87,8 +87,6 @@ class Canvas {
                 this.draw.fillStyle = `rgb(${newR},${newG},${newB})`
                 this.draw.fillRect(this.recArr[i][0], this.recArr[i][1], this.recArr[i][2], this.recArr[i][3])
             }
-
-            console.log(this.draw.fillStyle)
             index++;
 
         }, 100)
@@ -121,8 +119,6 @@ class Canvas {
                 this.draw.fillStyle = `rgb(${newR},${newG},${newB})`
                 this.draw.fillRect(this.recArr[i][0], this.recArr[i][1], this.recArr[i][2], this.recArr[i][3])
             }
-
-            console.log(this.draw.fillStyle)
             index++;
 
         }, 100)
