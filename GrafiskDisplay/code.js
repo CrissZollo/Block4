@@ -22,18 +22,18 @@ class Canvas {
 
             // if (black) {
 
-            //     this.draw.fillStyle = `#000000`;
+            //     this.draw.fillStyle = `#00AA00`;
             // } else {
-            //     this.draw.fillStyle = `#FFFFFF`;
+            //     this.draw.fillStyle = `#AA0000`;
 
             // }
 
             let r = Math.floor(Math.random() * 256);
             let g = Math.floor(Math.random() * 256);
             let b = Math.floor(Math.random() * 256);
-            this.draw.fillStyle = `rgb(${r},${g},${b})`;
+            // this.draw.fillStyle = `rgb(${r},${g},${b})`;
 
-            // this.draw.fillStyle = `#704214`;
+            this.draw.fillStyle = `#704214`;
 
             this.colorArr.push(this.draw.fillStyle);
             if (i % this.amountOfRec == 0 && i != 0) {
@@ -63,13 +63,17 @@ class Canvas {
 
         let target = 255;
         let index = 0;
+        let smoothness = 16;
 
 
         let interval = setInterval(() => {
 
-            if (index >= 16) {
+            if (index >= smoothness) {
 
                 clearInterval(interval);
+                for (let i = 0; i < this.colorArr.length; i++) {
+                    this.colorArr[i] = "#ffffff";
+                }
                 return;
             }
 
@@ -79,9 +83,9 @@ class Canvas {
                 let g = parseInt(this.colorArr[i][3] + this.colorArr[i][4], 16);
                 let b = parseInt(this.colorArr[i][5] + this.colorArr[i][6], 16);
 
-                let newR = ((target - r) / 16) * (index + 1) + r;
-                let newG = ((target - g) / 16) * (index + 1) + g;
-                let newB = ((target - b) / 16) * (index + 1) + b;
+                let newR = ((target - r) / smoothness) * (index + 1) + r;
+                let newG = ((target - g) / smoothness) * (index + 1) + g;
+                let newB = ((target - b) / smoothness) * (index + 1) + b;
 
 
                 this.draw.fillStyle = `rgb(${newR},${newG},${newB})`
@@ -90,18 +94,24 @@ class Canvas {
             index++;
 
         }, 100)
+
+
     }
 
 
     fadeOut() {
         let index = 0;
+        let smoothness = 16;
 
 
         let interval = setInterval(() => {
 
-            if (index > 16) {
+            if (index > smoothness) {
 
                 clearInterval(interval);
+                for (let i = 0; i < this.colorArr.length; i++) {
+                    this.colorArr[i] = "#000000";
+                }
                 return;
             }
 
@@ -111,9 +121,9 @@ class Canvas {
                 let g = parseInt(this.colorArr[i][3] + this.colorArr[i][4], 16);
                 let b = parseInt(this.colorArr[i][5] + this.colorArr[i][6], 16);
 
-                let newR = r - ((r / 16) * index + 1);
-                let newG = g - ((g / 16) * index + 1);
-                let newB = b - ((b / 16) * index + 1);
+                let newR = r - ((r / smoothness) * index + 1);
+                let newG = g - ((g / smoothness) * index + 1);
+                let newB = b - ((b / smoothness) * index + 1);
 
 
                 this.draw.fillStyle = `rgb(${newR},${newG},${newB})`
@@ -133,20 +143,28 @@ class Canvas {
             this.draw.fillRect(this.recArr[i][0], this.recArr[i][1], this.recArr[i][2], this.recArr[i][3])
         }
 
-        this.draw.clearRect(0, 0, canvas.width / this.amountOfRec, canvas.height)
+        this.draw.clearRect(0 - canvas.width / this.amountOfRec, 0, canvas.width / this.amountOfRec, canvas.height)
         this.draw.clearRect(canvas.width - canvas.width / this.amountOfRec, 0, canvas.width / this.amountOfRec, canvas.height)
     }
 
     scrollRight() {
 
-        for (let i = 0; i < this.recArr.length; i++) {
-
-            this.draw.fillStyle = this.colorArr[i - 1];
-            this.draw.fillRect(this.recArr[i][0], this.recArr[i][1], this.recArr[i][2], this.recArr[i][3])
+        let tempArr = [];
+        console.log(this.colorArr)
+        for (let i = this.recArr.length; i > 0; i--) {
+            if (i % this.amountOfRec != 0) {
+                tempArr.push(this.colorArr[i - 1]);
+                this.draw.fillStyle = tempArr[i];
+                this.draw.fillRect(this.recArr[i][0], this.recArr[i][1], this.recArr[i][2], this.recArr[i][3])
+                // this.colorArr[i + 2] = this.draw.fillStyle; fun bug when changing the number
+            }
         }
+        this.colorArr = tempArr;
+        console.log(tempArr)
 
-        this.draw.clearRect(canvas.width - (canvas.width / this.amountOfRec), 0, canvas.width / this.amountOfRec, canvas.height)
-        this.draw.clearRect(0, 0, canvas.width / this.amountOfRec, canvas.height)
+
+        this.draw.clearRect(canvas.width + canvas.width / this.amountOfRec, 0, canvas.width / this.amountOfRec, canvas.height)
+        this.draw.clearRect(0, 0, (canvas.width / this.amountOfRec) + (this.amountOfRec - (this.colorArr.length / this.amountOfRec)), canvas.height)
     }
 
     putPixle(x, y, color) {
@@ -158,37 +176,89 @@ class Canvas {
         }
     }
 
+
+    // Bresenham’s Line Algorithm
+    // https://classic.csunplugged.org/wp-content/uploads/2014/12/Lines.pdf
+
     line(x1, y1, x2, y2, color) {
         this.putPixle(x1, y1, color);
         this.putPixle(x2, y2, color);
 
-        for (let i = 0; i < 100; i++) {
-            let x = x1 + i;
-            let y = Math.round(y1 + ((y2 - y1) / (x2 - x1)) * i);
-            this.putPixle(x, y, color);
-            if (x == x2) {
-                break;
+        let dy = y2 - y1;
+        let dx = x2 - x1;
+        let A = 0
+        let B = 0
+        let P = 0;
+
+        if (dx > dy) {
+            A = dy * 2
+            B = A - (dx * 2)
+            P = A - dx
+
+            let lastY = y1;
+
+            for (let x = x1 + 1; x <= x2; x++) {
+                console.log(P)
+                if (P < 0) {
+                    this.putPixle(x, lastY, color)
+                    P += A;
+                } else if (P >= 0) {
+                    this.putPixle(x, lastY + 1, color)
+                    lastY++;
+                    P += B;
+                }
+
+            }
+        } else if (dy > dx) {
+            A = dx * 2
+            B = A - (dy * 2)
+            P = A - dy
+
+            let lastX = x1;
+
+            for (let y = y1 + 1; y <= y2; y++) {
+                console.log(P)
+                if (P < 0) {
+                    this.putPixle(lastX, y, color)
+                    P += A;
+                } else if (P >= 0) {
+                    this.putPixle(lastX + 1, y, color)
+                    lastX++;
+                    P += B;
+                }
+
             }
         }
-        // if (y2 - y1 > x2 - x1 || y1 - y2 > x1 - x2) {
-        // } else {
-        //     for (let i = 0; i < 100; i++) {
-        //         let x = x1 + i
-        //         let y = Math.round(y1 + ((y2 - y1) / (x2 - x1)) * i);
-        //         this.putPixle(x, y, color);
-        //         if (x == x2) {
-        //             break;
-        //         }
-        //     }
-        // }
-
     }
 
     circle(x, y, radius, color) {
         this.putPixle(x, y, color)
-        for (let i = 1; i < 360; i++) {
-            this.putPixle(Math.round(Math.cos(i) * radius) + x, Math.round(Math.sin(i) * radius) + y, color)
+        // for (let i = 1; i < 360 * radius; i++) {
+        //     this.putPixle(Math.round(Math.cos(i) * radius) + x, Math.round(Math.sin(i) * radius) + y, color)
+        // }
+
+
+
+        let E = -radius
+        let X = radius
+        let Y = 0
+
+        while (true) {
+
+            this.putPixle(X + x, Y + y)
+            E += (2 * Y + 1);
+            Y++;
+
+            if (E >= 0) {
+                E -= (2 * X - 1);
+                X--;
+            }
+
+            if (Y > X) {
+                break;
+            }
         }
+
     }
 }
 
@@ -198,11 +268,11 @@ let data = new Canvas();
 
 // data.clear("#ff0000");
 // data.putPixle(22, 10, "#00FF00");
-// data.line(0, 0, 20, 35, "#000000");
-// data.circle(20, 20, 10, "#000000");
+data.circle(20, 20, 10, "#000000");
+// data.fadeIn();
+// data.fadeOut();
 
 // Inte klara //
-// data.fadeIn();
-data.fadeOut();
+// data.line(1, 20, 25, 25, "#000000");
 // data.scrollLeft();
 // data.scrollRight();
