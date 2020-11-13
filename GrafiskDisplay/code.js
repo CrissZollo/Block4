@@ -182,7 +182,7 @@ class Canvas {
 
     line(x1, y1, x2, y2, color) {
         this.putPixle(x1, y1, color);
-        this.putPixle(x2, y2, color);
+        // this.putPixle(x2, y2, color);
 
         let dy = y2 - y1;
         let dx = x2 - x1;
@@ -209,7 +209,7 @@ class Canvas {
                 }
 
             }
-        } else if (dy > dx) {
+        } else {
             A = dx * 2
             B = A - (dy * 2)
             P = A - dy
@@ -233,46 +233,67 @@ class Canvas {
 
     circle(x, y, radius, color) {
         this.putPixle(x, y, color)
-        // for (let i = 1; i < 360 * radius; i++) {
-        //     this.putPixle(Math.round(Math.cos(i) * radius) + x, Math.round(Math.sin(i) * radius) + y, color)
-        // }
-
-
-
-        let E = -radius
-        let X = radius
-        let Y = 0
-
-        while (true) {
-
-            this.putPixle(X + x, Y + y)
-            E += (2 * Y + 1);
-            Y++;
-
-            if (E >= 0) {
-                E -= (2 * X - 1);
-                X--;
-            }
-
-            if (Y > X) {
-                break;
-            }
+        for (let i = 1; i < 360 * radius; i++) {
+            this.putPixle(Math.round(Math.cos(i) * radius) + x, Math.round(Math.sin(i) * radius) + y, color)
         }
+
+
+
+        // let E = -radius
+        // let X = radius
+        // let Y = 0
+
+        // while (true) {
+
+        //     this.putPixle(X + x, Y + y)
+        //     E += (2 * Y + 1);
+        //     Y++;
+
+        //     if (E >= 0) {
+        //         E -= (2 * X - 1);
+        //         X--;
+        //     }
+
+        //     console.log(Y)
+
+        //     if (Y > X) {
+        //         break;
+        //     }
+
+        // }
 
     }
 }
 
+class Bitmap {
+    constructor() {
+
+    }
+
+    blit(src, x1, y1, x2, y2, width, height) {
+
+        return true;
+    }
+
+    charAt(tkn, x, y, color) {
+
+    }
+
+    textAt(text, x, y, color) {
+
+    }
+}
+
+
 let data = new Canvas();
-
-
 
 // data.clear("#ff0000");
 // data.putPixle(22, 10, "#00FF00");
-data.circle(20, 20, 10, "#000000");
+// data.circle(20, 20, 10, "#000000");
 // data.fadeIn();
 // data.fadeOut();
+data.line(2, 26, 36, 35, "#000000");
 
 // Inte klara //
-// data.line(1, 20, 25, 25, "#000000");
 // data.scrollLeft();
 // data.scrollRight();
